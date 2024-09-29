@@ -1,5 +1,6 @@
 package edu.jsu.mcis.cs310.coursedb.dao;
 
+import com.github.cliftonlabs.json_simple.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -142,7 +143,17 @@ public class RegistrationDAO {
         return result;
         
     }
-
+/**
+ * list()
+ * Retrieves a list of course registrations for a specific student and term.
+ * @param studentid the numeric ID of the student.
+ * @param termid the term ID.
+ * @return a JSON array string containing all course registrations for the specified student and term.
+ * @implNote This method uses a prepared statement to query the database.
+ * 
+ * @see PreparedStatement
+ * @see ResultSet
+ */
     public String list(int studentid, int termid) {
         
         String result = null;
@@ -152,22 +163,28 @@ public class RegistrationDAO {
         ResultSetMetaData rsmd = null;
         
         try {
-            
-            Connection conn = daoFactory.getConnection();
-            
+            Connection conn = daoFactory.getConnection(); 
             if (conn.isValid(0)) {
                 //prep statement
                 ps = conn.prepareStatement(QUERYSELECT);
                 ps.setInt(1, studentid);
                 ps.setInt(2, termid);
-
-                //execte query and set result set 
-                rs = ps.executeQuery();
-
-                //onvert to json
-                result = DAOUtility.getResultSetAsJson(rs);
-            }
-            
+                Boolean gotResult = ps.execute();
+                
+                if(gotResult){
+                    rs = ps.getResultSet();
+                    JsonArray resultArray = new JsonArray();
+                    JsonObject stuID = new JsonObject();
+                    JsonObject termID = new JsonObject();     
+                    while(rs.next()){
+                        stuID.put("studentid", rs.getInt(studentid));
+                        termID.put("termid", rs.getInt(termid));
+                        resultArray.add(stuID);
+                        resultArray.add(termID);
+                        result = resultArray.toString();
+                    }
+                }
+            }      
         }
         
         catch (Exception e) { e.printStackTrace(); }
