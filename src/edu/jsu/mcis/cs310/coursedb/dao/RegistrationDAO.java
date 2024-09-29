@@ -14,7 +14,8 @@ public class RegistrationDAO {
     private final DAOFactory daoFactory;
     private final String QUERYINSERT = "INSERT INTO registration (studentid, termid, crn) VALUES (?, ?, ?)";
     private final String QUERYDELETE = "DELETE FROM registration WHERE studentid = ? AND termid = ? AND crn = ?";
-    private final String QUERYLIST = "SELECT * FROM registration WHERE studentid = ? AND termid = ? ORDER BY crn";
+    private final String QUERYDELETEALL = "DELETE FROM registration WHERE termid = ? AND studentid = ?";    
+    private final String QUERYSELECT = "SELECT * FROM registration WHERE studentid = ? AND termid = ? ORDER BY crn";
     RegistrationDAO(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
@@ -118,7 +119,7 @@ public class RegistrationDAO {
             
             if (conn.isValid(0)) {
                 //from first delete, removed crn
-                ps = conn.prepareStatement(QUERYDELETE);
+                ps = conn.prepareStatement(QUERYDELETEALL);
                 ps.setInt(1, studentid);
                 ps.setInt(2, termid);
                 
@@ -156,7 +157,7 @@ public class RegistrationDAO {
             
             if (conn.isValid(0)) {
                 //prep statement
-                ps = conn.prepareStatement(QUERYLIST);
+                ps = conn.prepareStatement(QUERYSELECT);
                 ps.setInt(1, studentid);
                 ps.setInt(2, termid);
 
@@ -174,7 +175,7 @@ public class RegistrationDAO {
         finally {
             
             if (rs != null) { try { rs.close(); } catch (Exception e) { e.printStackTrace(); } }
-            if (ps != null) { try { ps.close(); } catch (Exception e) { e.printStackTrace(); } }
+            
             
         }
         

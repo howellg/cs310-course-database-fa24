@@ -38,7 +38,7 @@ public class SectionDAO {
             
             //convert to json using DAOUtility
             result = DAOUtility.getResultSetAsJson(rs); 
-            
+           
             }
             
         }
@@ -48,7 +48,6 @@ public class SectionDAO {
         finally {
             
             if (rs != null) { try { rs.close(); } catch (Exception e) { e.printStackTrace(); } }
-            if (ps != null) { try { ps.close(); } catch (Exception e) { e.printStackTrace(); } }
             
         }
         
