@@ -7,13 +7,17 @@ import java.sql.ResultSetMetaData;
 import java.sql.Statement;
 
 public class RegistrationDAO {
-    
+    /**
+    * Using this as a way to play with Javadoc before the team project
+    * @since 1.0
+    */
     private final DAOFactory daoFactory;
     private final String QUERYINSERT = "INSERT INTO registration (studentid, termid, crn) VALUES (?, ?, ?)";
+    private final String QUERYDELETE = "DELETE FROM registration WHERE studentid = ? AND termid = ? AND crn = ?";
     RegistrationDAO(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
-    
+
     public boolean create(int studentid, int termid, int crn) {
         
         boolean result = false;
@@ -53,7 +57,15 @@ public class RegistrationDAO {
         return result;
         
     }
-
+/**
+ * Deletes a registration record from the registration table based on the student ID, term ID, and CRN.
+ * 
+ * @param studentid the numeric ID of the student whose registration is to be deleted
+ * @param termid the term ID for which the course registration is to be deleted
+ * @param crn the course reference number for the section to be deleted
+ * @return true if the deletion was successful, false otherwise
+ * @since 3.0
+ */
     public boolean delete(int studentid, int termid, int crn) {
         
         boolean result = false;
@@ -65,8 +77,17 @@ public class RegistrationDAO {
             Connection conn = daoFactory.getConnection();
             
             if (conn.isValid(0)) {
-                
-                // INSERT YOUR CODE HERE
+                //prep statement with QUERYDELETE
+                ps = conn.prepareStatement(QUERYDELETE);
+                ps.setInt(1, studentid);
+                ps.setInt(2, termid);
+                ps.setInt(3, crn);
+
+                //execute update
+                int rowsAffected = ps.executeUpdate();
+
+                //check if successful
+                result = (rowsAffected > 0);
                 
             }
             
