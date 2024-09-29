@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class RegistrationDAO {
     
     private final DAOFactory daoFactory;
-    
+    private final String QUERYINSERT = "INSERT INTO registration (studentid, termid, crn) VALUES (?, ?, ?)";
     RegistrationDAO(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
@@ -25,10 +25,18 @@ public class RegistrationDAO {
             
             Connection conn = daoFactory.getConnection();
             
-            if (conn.isValid(0)) {
-                
-                // INSERT YOUR CODE HERE
-                
+            if (conn.isValid(0)) {         
+                //prep statement with insert statment 
+                ps = conn.prepareStatement(QUERYINSERT);
+                ps.setInt(1, studentid);
+                ps.setInt(2, termid);
+                ps.setInt(3, crn);
+
+                //execute update
+                int rowsAffected = ps.executeUpdate();
+
+                //check if successful 
+                result = (rowsAffected > 0);
             }
             
         }
