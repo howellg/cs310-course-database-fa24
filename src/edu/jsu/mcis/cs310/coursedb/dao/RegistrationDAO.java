@@ -14,6 +14,7 @@ public class RegistrationDAO {
     private final DAOFactory daoFactory;
     private final String QUERYINSERT = "INSERT INTO registration (studentid, termid, crn) VALUES (?, ?, ?)";
     private final String QUERYDELETE = "DELETE FROM registration WHERE studentid = ? AND termid = ? AND crn = ?";
+    private final String QUERYLIST = "SELECT * FROM registration WHERE studentid = ? AND termid = ? ORDER BY crn";
     RegistrationDAO(DAOFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
@@ -116,8 +117,14 @@ public class RegistrationDAO {
             Connection conn = daoFactory.getConnection();
             
             if (conn.isValid(0)) {
+                //from first delete, removed crn
+                ps = conn.prepareStatement(QUERYDELETE);
+                ps.setInt(1, studentid);
+                ps.setInt(2, termid);
                 
-                // INSERT YOUR CODE HERE
+                int rowsAffected = ps.executeUpdate();
+                
+                result = (rowsAffected > 0);
                 
             }
             
@@ -148,9 +155,16 @@ public class RegistrationDAO {
             Connection conn = daoFactory.getConnection();
             
             if (conn.isValid(0)) {
-                
-                // INSERT YOUR CODE HERE
-                
+                //prep statement
+                ps = conn.prepareStatement(QUERYLIST);
+                ps.setInt(1, studentid);
+                ps.setInt(2, termid);
+
+                //execte query and set result set 
+                rs = ps.executeQuery();
+
+                //onvert to json
+                result = DAOUtility.getResultSetAsJson(rs);
             }
             
         }
