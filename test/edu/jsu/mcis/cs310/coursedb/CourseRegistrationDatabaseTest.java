@@ -13,7 +13,7 @@ public class CourseRegistrationDatabaseTest {
     private RegistrationDAO registrationDao;
     private SectionDAO sectionDao;
     private int studentid;
-    
+   
     private final String s1 = "[{\"studentid\":\"1\",\"termid\":\"1\",\"crn\":\"10520\"}]";
     private final String s2 = "[{\"studentid\":\"1\",\"termid\":\"1\",\"crn\":\"10520\"},{\"studentid\":\"1\",\"termid\":\"1\",\"crn\":\"10618\"},{\"studentid\":\"1\",\"termid\":\"1\",\"crn\":\"10796\"},{\"studentid\":\"1\",\"termid\":\"1\",\"crn\":\"12074\"}]";
     private final String s3 = "[{\"studentid\":\"1\",\"termid\":\"1\",\"crn\":\"10520\"},{\"studentid\":\"1\",\"termid\":\"1\",\"crn\":\"10618\"},{\"studentid\":\"1\",\"termid\":\"1\",\"crn\":\"10796\"},{\"studentid\":\"1\",\"termid\":\"1\",\"crn\":\"12074\"},{\"studentid\":\"1\",\"termid\":\"1\",\"crn\":\"12156\"}]";

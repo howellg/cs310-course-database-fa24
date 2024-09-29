@@ -28,9 +28,17 @@ public class SectionDAO {
             Connection conn = daoFactory.getConnection();
             
             if (conn.isValid(0)) {
-                
-                // INSERT YOUR CODE HERE
-                
+            //prep statement with query
+            ps = conn.prepareStatement(QUERY_FIND);
+            ps.setInt(1, termid);
+            ps.setString(2, subjectid);
+            ps.setString(3, num);
+             
+            rs = ps.executeQuery();
+            
+            //convert to json using DAOUtility
+            result = DAOUtility.getResultSetAsJson(rs); 
+            
             }
             
         }

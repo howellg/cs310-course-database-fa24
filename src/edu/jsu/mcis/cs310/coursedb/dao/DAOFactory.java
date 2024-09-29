@@ -3,7 +3,7 @@ package edu.jsu.mcis.cs310.coursedb.dao;
 import java.sql.*;
 
 public final class DAOFactory {
-    
+   
     private static final String PROPERTY_URL = "url";
     private static final String PROPERTY_DRIVER = "driver";
     private static final String PROPERTY_USERNAME = "username";
